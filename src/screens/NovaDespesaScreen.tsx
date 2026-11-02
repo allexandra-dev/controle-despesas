@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function NovaDespesaScreen({ navigation }: any) {
@@ -15,7 +22,7 @@ export default function NovaDespesaScreen({ navigation }: any) {
 
     const valorNumero = Number(valor.replace(",", "."));
     if (isNaN(valorNumero) || valorNumero <= 0) {
-      Alert.alert("Atenção", "Digite um valor válido.");
+      Alert.alert("Atenção", "Digite um valor válido, sem ponto de milhar.");
       return;
     }
 
@@ -38,46 +45,70 @@ export default function NovaDespesaScreen({ navigation }: any) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Título</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Ex: Mercado"
-        value={titulo}
-        onChangeText={setTitulo}
-      />
+      <View style={styles.formBox}>
+        <Text style={styles.label}>Título</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Ex: Mercado"
+          value={titulo}
+          onChangeText={setTitulo}
+        />
 
-      <Text style={styles.label}>Valor</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Ex: 150,50"
-        keyboardType="decimal-pad"
-        value={valor}
-        onChangeText={setValor}
-      />
+        <Text style={styles.label}>Valor (R$)</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Ex: 150,50"
+          keyboardType="decimal-pad"
+          value={valor}
+          onChangeText={setValor}
+        />
 
-      <Text style={styles.label}>Categoria</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Ex: Alimentação"
-        value={categoria}
-        onChangeText={setCategoria}
-      />
+        <Text style={styles.label}>Categoria</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Ex: Alimentação"
+          value={categoria}
+          onChangeText={setCategoria}
+        />
+      </View>
 
-      <Button title="Salvar despesa" onPress={salvar} />
+      <TouchableOpacity style={styles.botao} onPress={salvar}>
+        <Text style={styles.botaoTexto}>Salvar despesa</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, backgroundColor: "#f4f6f8" },
-  label: { fontSize: 16, fontWeight: "bold", marginBottom: 6 },
-  input: {
+  container: { flex: 1, padding: 16, backgroundColor: "#f1f5f2" },
+  formBox: {
     backgroundColor: "#fff",
+    borderRadius: 20,
+    padding: 20,
+    marginBottom: 20,
+    elevation: 2,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#2e7d32",
+    marginBottom: 6,
+  },
+  input: {
+    backgroundColor: "#f7f9f7",
     borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
+    borderColor: "#c8e6c9",
+    borderRadius: 12,
     padding: 12,
     fontSize: 16,
     marginBottom: 16,
   },
+  botao: {
+    backgroundColor: "#2e7d32",
+    borderRadius: 14,
+    padding: 16,
+    alignItems: "center",
+    elevation: 3,
+  },
+  botaoTexto: { color: "#fff", fontSize: 18, fontWeight: "bold" },
 });
